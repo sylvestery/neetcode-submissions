@@ -1,0 +1,32 @@
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        if not cost:
+            return 0
+        # i + 1 or i+2 floor
+        # cost paid before stepping
+        # start at 0 or 1  
+        n = len(cost)
+        cache = [-1 for _ in range(n)]
+        def dfs(i):
+            nonlocal cost
+            if i >= n:
+                return 0
+            if cache[i]  != -1:
+                return cache[i]
+            total = cost[i] + min(dfs(i+1), dfs(i+2))
+            cache[i] = total
+            return total
+        def dp():
+            nonlocal cost
+            dp = [0 for _ in range(n)]
+            dp[0] = cost[0]
+            dp[1] = cost[1]
+            for i in range(2, n):
+                dp[i] = cost[i] + min(dp[i-1], dp[i-2])
+            print(dp)
+            return min(dp[-1], dp[-2])
+
+        #return min(dfs(0), dfs(1))
+        return dp()
+            
+
